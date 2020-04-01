@@ -135,7 +135,11 @@ public class Heap {
     public void insertNode(City in) {
         minHeap.add(in);
         int indexOfLastCity = minHeap.size() - 1;
-        invHeap.add(indexOfLastCity);
+        if(in.getCityName() > invHeap.size()-1) {
+        	invHeap.add(indexOfLastCity);
+        } else {
+        	invHeap.set(in.getCityName(), indexOfLastCity);
+        }
         heapifyUp(indexOfLastCity);
     }
 
@@ -163,6 +167,7 @@ public class Heap {
         int indexOfLastCity = minHeap.size() - 1;
         City lastCity = minHeap.remove(indexOfLastCity);
         minHeap.set(0, lastCity);
+        invHeap.set(lastCity.getCityName(), 0);
         heapifyDown(0);
         return minCity;
     }
@@ -181,6 +186,7 @@ public class Heap {
     		return;
     	}
     	minHeap.set(index, lastCity);
+    	invHeap.set(lastCity.getCityName(), index);
     	int parent = getIndexOfParent(index);
     	
     	if((minHeap.get(index).getMinCost() > minHeap.get(parent).getMinCost()) || index == 0) {

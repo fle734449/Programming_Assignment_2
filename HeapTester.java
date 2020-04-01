@@ -91,13 +91,13 @@ public class HeapTester {
 		cities.add(new City(1)); cities.get(6).setMinCost(3);
 		Heap h = new Heap();
 		h.buildHeap(cities);
-		City c = new City(0);
+		City c = new City(7);
 		c.setMinCost(1);
 		h.insertNode(c);
 		int i = h.findMin().getMinCost();
 		assertEquals(1, i);
 		int j = h.findMin().getCityName();
-		assertEquals(0, j);
+		assertEquals(6, j);
 	}
 	
 	@Test
@@ -188,6 +188,10 @@ public class HeapTester {
 		assertEquals(cost,1);
 		assertEquals(3, i);
 		assertEquals(0, j);
+		City c2 = new City(6);
+		c2.setMinCost(1);
+		h.insertNode(c2);
+		System.out.println();
 	}
 	
 	@Test
@@ -208,6 +212,10 @@ public class HeapTester {
 		int j = h.findMin().getCityName();
 		assertEquals(3, i);
 		assertEquals(0, j);
+		City c = new City(6);
+		c.setMinCost(1);
+		h.insertNode(c);
+		System.out.println();
 	}
 	
 	@Test
@@ -228,6 +236,10 @@ public class HeapTester {
 		int j = h.findMin().getCityName();
 		assertEquals(1, i);
 		assertEquals(6, j);
+		City c = new City(3);
+		c.setMinCost(3);
+		h.insertNode(c);
+		System.out.println();
 	}
 	
 	@Test
@@ -248,6 +260,10 @@ public class HeapTester {
 		int j = h.findMin().getCityName();
 		assertEquals(1, i);
 		assertEquals(6, j);
+		City c = new City(5);
+		c.setMinCost(6);
+		h.insertNode(c);
+		System.out.println();
 	}
 	
 	@Test
@@ -269,6 +285,32 @@ public class HeapTester {
 		ArrayList<City> test = h.toArrayList();
 		int i = test.get(2).getMinCost();
 		assertEquals(19, i);
+
+	}
+	
+	@Test
+	public void testDeleteReAdd() {
+		ArrayList<City> cities = new ArrayList<>();
+		
+		cities.add(new City(1)); cities.get(0).setMinCost(1);
+		cities.add(new City(4)); cities.get(1).setMinCost(9);
+		cities.add(new City(5)); cities.get(2).setMinCost(22);
+		cities.add(new City(6)); cities.get(3).setMinCost(17);
+		cities.add(new City(2)); cities.get(4).setMinCost(11);
+		cities.add(new City(0)); cities.get(5).setMinCost(33);
+		cities.add(new City(3)); cities.get(6).setMinCost(27);
+		cities.add(new City(7)); cities.get(7).setMinCost(21);
+		cities.add(new City(8)); cities.get(8).setMinCost(19);
+		Heap h = new Heap();
+		h.buildHeap(cities);
+		h.delete(5);
+		ArrayList<City> test = h.toArrayList();
+		int i = test.get(2).getMinCost();
+		assertEquals(19, i);
+		City c = new City(0);
+		c.setMinCost(33);
+		h.insertNode(c);
+		System.out.println();
 
 	}
 	
