@@ -2,9 +2,11 @@ import java.util.ArrayList;
 
 public class Heap {
     private ArrayList<City> minHeap;
+    private ArrayList<Integer> invHeap;
 
     public Heap() {
         minHeap = new ArrayList<City>();
+        invHeap = new ArrayList<Integer>();
     }
 
     /**
@@ -16,12 +18,22 @@ public class Heap {
      */
     public void buildHeap(ArrayList<City> cities) {
         for(int i = 0; i < cities.size(); i++) {
-        	minHeap.add(cities.get(i));
+        	minHeap.add(cities.get(i));				//O(n) copy to array of cities into min heap
         }
         
         int mid = cities.size()/2 - 1; 	//Get the last parent node.
         for(int i = mid; i >= 0; i--) {
-        	heapifyDown(i);
+        	heapifyDown(i);							//O(n) building of min heap
+        }
+        
+        for(int i = 0; i < minHeap.size(); i++) {
+    		invHeap.add(0);							//O(n)
+    	}
+        
+        for(int i = 0; i < minHeap.size(); i++) {		//O(n) creation of inverted list
+            int city = minHeap.get(i).getCityName();
+            invHeap.set(city, i);
+            	
         }
     }
 
@@ -85,8 +97,18 @@ public class Heap {
 
     private void swap(int i, int parent) {
 		City tempCity = minHeap.get(i);
+		City parentCity = minHeap.get(parent);
 		minHeap.set(i, minHeap.get(parent));
 		minHeap.set(parent, tempCity);
+		
+		//update inverted list
+		if(invHeap.size() != 0) {
+			int j = tempCity.getCityName();
+			int toSwap = invHeap.get(j);
+			int swapWith = invHeap.get(parentCity.getCityName());
+			invHeap.set(j, swapWith);
+			invHeap.set(parentCity.getCityName(), toSwap);
+		}
 	}
 
 	private int getIndexOfParent(int i) {
@@ -113,6 +135,7 @@ public class Heap {
     public void insertNode(City in) {
         minHeap.add(in);
         int indexOfLastCity = minHeap.size() - 1;
+        invHeap.add(indexOfLastCity);
         heapifyUp(indexOfLastCity);
     }
 
@@ -154,6 +177,9 @@ public class Heap {
     public void delete(int index) {
     	int indexOfLastCity = minHeap.size() - 1;
     	City lastCity = minHeap.remove(indexOfLastCity);
+    	if(index == indexOfLastCity) {
+    		return;
+    	}
     	minHeap.set(index, lastCity);
     	int parent = getIndexOfParent(index);
     	
