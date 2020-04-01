@@ -314,6 +314,90 @@ public class HeapTester {
 
 	}
 	
-
+	@Test
+	public void testChangeKey() {
+		ArrayList<City> cities = new ArrayList<>();
+		
+		cities.add(new City(0)); cities.get(0).setMinCost(5);
+		cities.add(new City(1)); cities.get(1).setMinCost(3);
+		cities.add(new City(2)); cities.get(2).setMinCost(7);
+		cities.add(new City(3)); cities.get(3).setMinCost(2);
+		Heap h = new Heap();
+		h.buildHeap(cities);
+		ArrayList<City> test = h.toArrayList();
+		h.changeKey(test.get(0), 10);
+		assertEquals(1, h.findMin().getCityName());
+	
+	}
+	
+	@Test
+	public void testChangeKey2() {
+		ArrayList<City> cities = new ArrayList<>();
+		
+		cities.add(new City(0)); cities.get(0).setMinCost(5);
+		cities.add(new City(1)); cities.get(1).setMinCost(3);
+		cities.add(new City(2)); cities.get(2).setMinCost(7);
+		cities.add(new City(3)); cities.get(3).setMinCost(2);
+		Heap h = new Heap();
+		h.buildHeap(cities);
+		ArrayList<City> test = h.toArrayList();
+		h.changeKey(test.get(1), 10);
+		assertEquals(3, h.findMin().getCityName());
+	
+	}
+	
+	@Test
+	public void testChangeKey3() {
+		ArrayList<City> cities = new ArrayList<>();
+		
+		cities.add(new City(0)); cities.get(0).setMinCost(5);
+		cities.add(new City(1)); cities.get(1).setMinCost(3);
+		cities.add(new City(2)); cities.get(2).setMinCost(7);
+		cities.add(new City(3)); cities.get(3).setMinCost(10);
+		Heap h = new Heap();
+		h.buildHeap(cities);
+		ArrayList<City> test = h.toArrayList();
+		h.changeKey(test.get(1), 3);
+		assertEquals(0, h.findMin().getCityName());
+	
+	}
+	
+	@Test
+	public void testChangeKey4() {
+		ArrayList<City> cities = new ArrayList<>();
+		
+		cities.add(new City(0)); cities.get(0).setMinCost(3);
+		cities.add(new City(4)); cities.get(1).setMinCost(5);
+		cities.add(new City(5)); cities.get(2).setMinCost(6);
+		cities.add(new City(6)); cities.get(3).setMinCost(1);
+		cities.add(new City(2)); cities.get(4).setMinCost(3);
+		cities.add(new City(3)); cities.get(5).setMinCost(2);
+		cities.add(new City(1)); cities.get(6).setMinCost(3);
+		Heap h = new Heap();
+		h.buildHeap(cities);
+		ArrayList<City> test = h.toArrayList();
+		h.changeKey(test.get(3), 3);
+		assertEquals(6, h.findMin().getCityName());
+	
+	}
+	
+	@Test
+	public void testChangeKey5() {
+		ArrayList<City> cities = new ArrayList<>();
+		
+		cities.add(new City(0)); cities.get(0).setMinCost(3);
+		cities.add(new City(4)); cities.get(1).setMinCost(5);
+		cities.add(new City(5)); cities.get(2).setMinCost(6);
+		cities.add(new City(6)); cities.get(3).setMinCost(1);
+		cities.add(new City(2)); cities.get(4).setMinCost(3);
+		cities.add(new City(3)); cities.get(5).setMinCost(2);
+		cities.add(new City(1)); cities.get(6).setMinCost(3);
+		Heap h = new Heap();
+		h.buildHeap(cities);
+		ArrayList<City> test = h.toArrayList();
+		h.changeKey(test.get(3), 0);
+		assertEquals(4, h.findMin().getCityName());
+	
+	}
 
 }

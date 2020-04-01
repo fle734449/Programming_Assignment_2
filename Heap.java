@@ -194,6 +194,8 @@ public class Heap {
     	} else if(minHeap.get(index).getMinCost() == minHeap.get(parent).getMinCost()) {
     		if(minHeap.get(index).getCityName() > minHeap.get(parent).getCityName()){
     			heapifyDown(index);
+    		} else {
+    			heapifyUp(index);
     		}
     	} else {
     		heapifyUp(index);
@@ -211,7 +213,25 @@ public class Heap {
      * @param newCost - the new cost of city c in the heap (note that the heap is keyed on the values of minCost)
      */
     public void changeKey(City c, int newCost) {
-        // TODO: implement this method
+    	int index = invHeap.get(c.getCityName());
+    	City change = minHeap.get(index);
+    	change.setMinCost(newCost);
+    	minHeap.set(index, change);
+
+    	int parent = getIndexOfParent(index);
+    	
+    	if((minHeap.get(index).getMinCost() > minHeap.get(parent).getMinCost()) || index == 0) {
+    		heapifyDown(index);
+    	} else if(minHeap.get(index).getMinCost() == minHeap.get(parent).getMinCost()) {
+    		if(minHeap.get(index).getCityName() > minHeap.get(parent).getCityName()){
+    			heapifyDown(index);
+    		} else {
+    			heapifyUp(index);
+    		}
+    	} else {
+    		heapifyUp(index);
+    	}
+    	
     }
 
     public String toString() {
