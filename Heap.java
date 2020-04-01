@@ -15,10 +15,93 @@ public class Heap {
      * @param cities
      */
     public void buildHeap(ArrayList<City> cities) {
-        // TODO: implement this method
+        for(int i = 0; i < cities.size(); i++) {
+        	minHeap.add(cities.get(i));
+        }
+        
+        int mid = cities.size()/2 - 1; 	//Get the last parent node.
+        for(int i = mid; i >= 0; i--) {
+        	heapifyDown(mid);
+        }
     }
 
-    /**
+    private void heapifyDown(int i) {
+		// TODO Auto-generated method stub
+    	int heapSize = minHeap.size();
+    	int leftChild = getIndexOfLeftChild(i);
+		int rightChild = getIndexOfRightChild(i);
+		int indexToSwap = i;
+		
+    	if(leftChild > heapSize) {
+    		return;
+    	} else if(leftChild < heapSize) {
+    		if(minHeap.get(leftChild).getMinCost() < minHeap.get(i).getMinCost()) {
+    			indexToSwap = leftChild;
+    		} else if(minHeap.get(leftChild).getMinCost() == minHeap.get(i).getMinCost()) {
+    			if(minHeap.get(leftChild).getCityName() < minHeap.get(i).getCityName()) {
+    				indexToSwap = leftChild;
+    			}
+    		}
+    		if(minHeap.get(rightChild).getMinCost() < minHeap.get(indexToSwap).getMinCost()) {
+    			indexToSwap = rightChild;
+    		} else if(minHeap.get(rightChild).getMinCost() == minHeap.get(indexToSwap).getMinCost()) {
+    			if(minHeap.get(rightChild).getCityName() < minHeap.get(indexToSwap).getCityName()) {
+    				indexToSwap = rightChild;
+    			}
+    		}
+    	} else if (leftChild == heapSize) {
+    		indexToSwap = leftChild;
+    	}
+    	if(indexToSwap == i) {
+    		return;
+    	} else {
+    		swap(indexToSwap, i);
+    		heapifyDown(indexToSwap);
+    	}
+    	
+		
+	}
+    
+    private void heapifyUp(int i) {
+		if(i > 0) {
+			int parent = getIndexOfParent(i);
+			if(minHeap.get(i).getMinCost() < minHeap.get(parent).getMinCost()) {
+				swap(i, parent);
+				heapifyUp(parent);
+			}
+			
+			if(minHeap.get(i).getMinCost() == minHeap.get(parent).getMinCost()) {
+				if(minHeap.get(i).getCityName() < minHeap.get(parent).getCityName()) {
+					swap(i, parent);
+					heapifyUp(parent);
+				}
+			}
+			
+		}
+		
+	}
+
+    private void swap(int i, int parent) {
+		City tempCity = minHeap.get(i);
+		minHeap.set(i, minHeap.get(parent));
+		minHeap.set(parent, tempCity);
+	}
+
+	private int getIndexOfParent(int i) {
+		return (i-1)/2;
+	}
+    
+	private int getIndexOfLeftChild(int i) {
+		return 2*i + 1;
+	}
+	
+	private int getIndexOfRightChild(int i) {
+		return 2*i + 2;
+	}
+	
+	
+
+	/**
      * insertNode(City in)
      * Insert a City into the heap.
      * Time Complexity - O(log(n))
@@ -26,7 +109,9 @@ public class Heap {
      * @param in - the City to insert.
      */
     public void insertNode(City in) {
-        // TODO: implement this method
+        minHeap.add(in);
+        int indexOfLastCity = minHeap.size() - 1;
+        heapifyUp(indexOfLastCity);
     }
 
     /**
@@ -35,8 +120,7 @@ public class Heap {
      * @return the minimum element of the heap. Must run in constant time.
      */
     public City findMin() {
-        // TODO: implement this method
-        return null;
+    	return minHeap.get(0);
     }
 
     /**
@@ -46,8 +130,12 @@ public class Heap {
      * @return the minimum element of the heap, AND removes the element from said heap.
      */
     public City extractMin() {
-        // TODO: implement this method
-        return null;
+        City minCity = minHeap.get(0);
+        int indexOfLastCity = minHeap.size() - 1;
+        City lastCity = minHeap.remove(indexOfLastCity);
+        minHeap.set(0, lastCity);
+        heapifyDown(0);
+        return minCity;
     }
 
     /**
