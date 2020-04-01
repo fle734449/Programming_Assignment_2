@@ -26,7 +26,6 @@ public class Heap {
     }
 
     private void heapifyDown(int i) {
-		// TODO Auto-generated method stub
     	int heapSize = minHeap.size();
     	int leftChild = getIndexOfLeftChild(i);
 		int rightChild = getIndexOfRightChild(i);
@@ -34,14 +33,18 @@ public class Heap {
 		
     	if(leftChild > heapSize) {
     		return;
-    	} else if(leftChild < heapSize) {
-    		if(minHeap.get(leftChild).getMinCost() < minHeap.get(i).getMinCost()) {
+    	}
+    	if(leftChild < heapSize) {
+    		if(minHeap.get(leftChild).getMinCost() < minHeap.get(indexToSwap).getMinCost()) {
     			indexToSwap = leftChild;
-    		} else if(minHeap.get(leftChild).getMinCost() == minHeap.get(i).getMinCost()) {
-    			if(minHeap.get(leftChild).getCityName() < minHeap.get(i).getCityName()) {
+    		} else if(minHeap.get(leftChild).getMinCost() == minHeap.get(indexToSwap).getMinCost()) {
+    			if(minHeap.get(leftChild).getCityName() < minHeap.get(indexToSwap).getCityName()) {
     				indexToSwap = leftChild;
     			}
     		}
+    		
+    	}
+    	if (rightChild < heapSize) {
     		if(minHeap.get(rightChild).getMinCost() < minHeap.get(indexToSwap).getMinCost()) {
     			indexToSwap = rightChild;
     		} else if(minHeap.get(rightChild).getMinCost() == minHeap.get(indexToSwap).getMinCost()) {
@@ -49,9 +52,8 @@ public class Heap {
     				indexToSwap = rightChild;
     			}
     		}
-    	} else if (leftChild == heapSize) {
-    		indexToSwap = leftChild;
     	}
+
     	if(indexToSwap == i) {
     		return;
     	} else {
@@ -120,7 +122,11 @@ public class Heap {
      * @return the minimum element of the heap. Must run in constant time.
      */
     public City findMin() {
-    	return minHeap.get(0);
+    	if(minHeap.size() == 0) {
+    		return null;
+    	} else {
+    		return minHeap.get(0);
+    	}
     }
 
     /**
@@ -130,7 +136,7 @@ public class Heap {
      * @return the minimum element of the heap, AND removes the element from said heap.
      */
     public City extractMin() {
-        City minCity = minHeap.get(0);
+        City minCity = findMin();
         int indexOfLastCity = minHeap.size() - 1;
         City lastCity = minHeap.remove(indexOfLastCity);
         minHeap.set(0, lastCity);
@@ -146,7 +152,22 @@ public class Heap {
      * @param index - the index of the item to be deleted in the min-heap.
      */
     public void delete(int index) {
-        // TODO: implement this method
+    	int indexOfLastCity = minHeap.size() - 1;
+    	City lastCity = minHeap.remove(indexOfLastCity);
+    	minHeap.set(index, lastCity);
+    	int parent = getIndexOfParent(index);
+    	
+    	if((minHeap.get(index).getMinCost() > minHeap.get(parent).getMinCost()) || index == 0) {
+    		heapifyDown(index);
+    	} else if(minHeap.get(index).getMinCost() == minHeap.get(parent).getMinCost()) {
+    		if(minHeap.get(index).getCityName() > minHeap.get(parent).getCityName()){
+    			heapifyDown(index);
+    		}
+    	} else {
+    		heapifyUp(index);
+    	}
+    	
+    	
     }
 
     /**
