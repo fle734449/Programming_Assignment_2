@@ -21,7 +21,7 @@ public class Heap {
         
         int mid = cities.size()/2 - 1; 	//Get the last parent node.
         for(int i = mid; i >= 0; i--) {
-        	heapifyDown(mid);
+        	heapifyDown(i);
         }
     }
 
