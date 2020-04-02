@@ -22,7 +22,46 @@ public class Program2 {
      */
     public int findCheapestPathPrice(City start, City dest) {
         // TODO: implement this function
-        return -1;
+    	int cheapestPathPrice = 0;
+    	
+    	if(start.getCityName() == dest.getCityName()) {
+    		return 0;
+    	}
+    	
+    	ArrayList<City> visited = new ArrayList<City>();
+    	
+    	for(int i = 0; i < cities.size(); i++) {
+    		cities.get(i).resetMinCost();
+    	}
+    	
+    	start.setMinCost(0);
+    	minHeap.buildHeap(cities);
+    	City currentCity;
+    	
+    	while(minHeap.size() != 0) {
+    		currentCity = minHeap.extractMin();
+    		
+    		if(currentCity.getCityName() == dest.getCityName()) {
+    			break;
+    		}
+    		
+    		visited.add(currentCity);
+    		
+    		int currentPrice = currentCity.getMinCost();
+    		
+    		for(int i = 0; i < currentCity.getNeighbors().size(); i++) {
+    			City neighbor = currentCity.getNeighbors().get(i);
+    			int neighborPrice = currentCity.getWeights().get(i);
+    			
+    			if(neighbor.getMinCost() > currentPrice + neighborPrice) {
+    				minHeap.changeKey(neighbor, currentPrice + neighborPrice);
+    			}
+    		}
+    	}
+    	
+    	cheapestPathPrice = dest.getMinCost();
+    	
+        return cheapestPathPrice;
     }
 
     /**

@@ -123,7 +123,9 @@ public class Heap {
 		return 2*i + 2;
 	}
 	
-	
+	public int size() {
+		return minHeap.size();
+	}
 
 	/**
      * insertNode(City in)
@@ -163,6 +165,11 @@ public class Heap {
      * @return the minimum element of the heap, AND removes the element from said heap.
      */
     public City extractMin() {
+    	if(minHeap.size() == 1) {
+    		City minCity = minHeap.remove(0);
+    		return minCity;
+    	}
+    	
         City minCity = findMin();
         int indexOfLastCity = minHeap.size() - 1;
         City lastCity = minHeap.remove(indexOfLastCity);
