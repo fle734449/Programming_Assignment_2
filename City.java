@@ -7,6 +7,7 @@ public class City {
     private int cityName;
     private ArrayList<City> neighbors;
     private ArrayList<Integer> weights;
+    private City parent;
 
     public City(int x) {
         cityName = x;
@@ -15,6 +16,14 @@ public class City {
         weights = new ArrayList<Integer>();
     }
 
+    public City getParent() {
+    	return parent;
+    }
+    
+    public void setParent(City c) {
+    	parent = c;
+    }
+    
     public void setNeighborAndWeight(City n, Integer w) {
         neighbors.add(n);
         weights.add(w);

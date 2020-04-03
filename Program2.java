@@ -21,14 +21,12 @@ public class Program2 {
      * If no path exists, return Integer.MAX_VALUE
      */
     public int findCheapestPathPrice(City start, City dest) {
-        // TODO: implement this function
     	int cheapestPathPrice = 0;
     	
     	if(start.getCityName() == dest.getCityName()) {
     		return 0;
     	}
     	
-    	ArrayList<City> visited = new ArrayList<City>();
     	
     	for(int i = 0; i < cities.size(); i++) {
     		cities.get(i).resetMinCost();
@@ -45,7 +43,6 @@ public class Program2 {
     			break;
     		}
     		
-    		visited.add(currentCity);
     		
     		int currentPrice = currentCity.getMinCost();
     		
@@ -73,8 +70,57 @@ public class Program2 {
      * If no path exists, return null
      */
     public ArrayList<City> findCheapestPath(City start, City dest) {
-        // TODO: implement this function
-        return null;
+    	ArrayList<City> cheapestPath = new ArrayList<City>();
+    	
+    	if(start.getCityName() == dest.getCityName()) {
+    		cheapestPath.add(start);
+    		return cheapestPath;
+    	}
+    	
+    	
+    	for(int i = 0; i < cities.size(); i++) {
+    		cities.get(i).resetMinCost();
+    		cities.get(i).setParent(null);
+    	}
+    	
+    	start.setMinCost(0);
+    	minHeap.buildHeap(cities);
+    	City currentCity;
+    	
+    	while(minHeap.size() != 0) {
+    		currentCity = minHeap.extractMin();
+    		
+    		if(currentCity.getCityName() == dest.getCityName()) {
+    			break;
+    		}
+    		
+    		
+    		int currentPrice = currentCity.getMinCost();
+    		
+    		for(int i = 0; i < currentCity.getNeighbors().size(); i++) {
+    			City neighbor = currentCity.getNeighbors().get(i);
+    			int neighborPrice = currentCity.getWeights().get(i);
+    			
+    			if(neighbor.getMinCost() > currentPrice + neighborPrice) {
+    				minHeap.changeKey(neighbor, currentPrice + neighborPrice);
+    				neighbor.setParent(currentCity);
+    			}
+    		}
+    	}
+    	
+    	if(dest.getMinCost() == Integer.MAX_VALUE) {
+    		return null;
+    	}
+    	
+    	City c = dest;
+    	while(c != null) {
+    		cheapestPath.add(c);
+    		c = c.getParent();
+    	}
+    	
+    	Collections.reverse(cheapestPath);
+    	 	
+        return cheapestPath;
     }
 
     /**
