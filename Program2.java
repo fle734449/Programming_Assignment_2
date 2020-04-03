@@ -50,7 +50,7 @@ public class Program2 {
     			City neighbor = currentCity.getNeighbors().get(i);
     			int neighborPrice = currentCity.getWeights().get(i);
     			
-    			if(neighbor.getMinCost() > currentPrice + neighborPrice) {
+    			if(neighbor.getMinCost() > currentPrice + neighborPrice && currentPrice != Integer.MAX_VALUE) {
     				minHeap.changeKey(neighbor, currentPrice + neighborPrice);
     			}
     		}
@@ -101,7 +101,7 @@ public class Program2 {
     			City neighbor = currentCity.getNeighbors().get(i);
     			int neighborPrice = currentCity.getWeights().get(i);
     			
-    			if(neighbor.getMinCost() > currentPrice + neighborPrice) {
+    			if(neighbor.getMinCost() > currentPrice + neighborPrice && currentPrice != Integer.MAX_VALUE) {
     				minHeap.changeKey(neighbor, currentPrice + neighborPrice);
     				neighbor.setParent(currentCity);
     			}
