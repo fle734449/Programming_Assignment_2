@@ -399,5 +399,23 @@ public class HeapTester {
 		assertEquals(4, h.findMin().getCityName());
 	
 	}
+	
+	@Test
+	public void testInsert3() {
+		Heap h = new Heap();
+		City c = new City(0);
+		c.setMinCost(33);
+		h.insertNode(c);
+		assertEquals(0, h.findMin().getCityName());
+		City c2 = new City(1);
+		c2.setMinCost(0);
+		h.insertNode(c2);
+		assertEquals(1, h.findMin().getCityName());
+		City c3 = new City(2);
+		c3.setMinCost(100);
+		h.insertNode(c3);
+		assertEquals(1, h.findMin().getCityName());
+	
+	}
 
 }
