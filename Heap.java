@@ -18,6 +18,7 @@ public class Heap {
      */
     public void buildHeap(ArrayList<City> cities) {
     	minHeap.clear();							//O(n) clear previous minHeap
+    	invHeap.clear();
     	
         for(int i = 0; i < cities.size(); i++) {
         	minHeap.add(cities.get(i));				//O(n) copy to array of cities into min heap

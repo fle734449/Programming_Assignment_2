@@ -133,27 +133,34 @@ public class Program2 {
      * The tracks you're leaving open cost some money (aka the edge weights) to maintain. Minimize the overall cost.
      */
     public int findLowestTotalCost() {
-        // TODO: implement this function
+    	ArrayList<Boolean> visited = new ArrayList<Boolean>();
+    	
     	for(int i = 0; i < cities.size(); i++) {
     		cities.get(i).resetMinCost();
     		cities.get(i).setParent(null);
+    		visited.add(false);
     	}
     	
-    	cities.get(0).setMinCost(0);
+    	int start = 0;
+    	cities.get(start).setMinCost(0);
+    	visited.set(start, true);
     	minHeap.buildHeap(cities);
     	City currentCity;
     	
     	while(minHeap.size() != 0) {
     		currentCity = minHeap.extractMin();
-    		int currentPrice = currentCity.getMinCost();
+    		
+    		visited.set(currentCity.getCityName(), true);
     		
     		for(int i = 0; i < currentCity.getNeighbors().size(); i++) {
-    			City neighbor = currentCity.getNeighbors().get(i);
-    			int neighborPrice = currentCity.getWeights().get(i);
+    			if(visited.get(currentCity.getNeighbors().get(i).getCityName()) == false) {
+    				City neighbor = currentCity.getNeighbors().get(i);
+    				int neighborPrice = currentCity.getWeights().get(i);
     			
-    			if(neighbor.getMinCost() > neighborPrice && currentPrice != Integer.MAX_VALUE) {
-    				neighbor.setParent(currentCity);
-    				minHeap.changeKey(neighbor, neighborPrice);
+    				if(neighbor.getMinCost() > neighborPrice) {
+    					neighbor.setParent(currentCity);
+    					minHeap.changeKey(neighbor, neighborPrice);
+    				}
     			}
     		}
     		
