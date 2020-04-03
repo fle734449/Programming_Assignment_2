@@ -134,7 +134,40 @@ public class Program2 {
      */
     public int findLowestTotalCost() {
         // TODO: implement this function
-        return -1;
+    	for(int i = 0; i < cities.size(); i++) {
+    		cities.get(i).resetMinCost();
+    		cities.get(i).setParent(null);
+    	}
+    	
+    	cities.get(0).setMinCost(0);
+    	minHeap.buildHeap(cities);
+    	City currentCity;
+    	
+    	while(minHeap.size() != 0) {
+    		currentCity = minHeap.extractMin();
+    		int currentPrice = currentCity.getMinCost();
+    		
+    		for(int i = 0; i < currentCity.getNeighbors().size(); i++) {
+    			City neighbor = currentCity.getNeighbors().get(i);
+    			int neighborPrice = currentCity.getWeights().get(i);
+    			
+    			if(neighbor.getMinCost() > neighborPrice && currentPrice != Integer.MAX_VALUE) {
+    				neighbor.setParent(currentCity);
+    				minHeap.changeKey(neighbor, neighborPrice);
+    			}
+    		}
+    		
+    	}
+    	
+    	int total = 0;
+    	
+    	for(City c : cities) {
+    		if(c.getMinCost() != Integer.MAX_VALUE) {
+    			total += c.getMinCost();
+    		}
+    	}
+    	
+        return total;
     }
 
     //returns edges and weights in a string.
